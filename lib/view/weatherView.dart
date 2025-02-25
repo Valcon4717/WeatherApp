@@ -5,7 +5,7 @@ class WeatherView extends StatefulWidget {
   const WeatherView({super.key});
 
   @override
-  _WeatherViewState createState() => _WeatherViewState();
+  State<WeatherView> createState() => _WeatherViewState();
 }
 
 class _WeatherViewState extends State<WeatherView> {
@@ -25,35 +25,42 @@ class _WeatherViewState extends State<WeatherView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // child: Center(
-      //   child: _controller.isLoading
-      //       ? CupertinoActivityIndicator()
-      //       : Column(
-      //           mainAxisAlignment: MainAxisAlignment.center,
-      //           children: [
-      //             Text(
-      //               "Current Temp: ${_controller.weather?.temperature}°F",
-      //               style: CupertinoTheme.of(context).textTheme.textStyle,
-      //             ),
-      //             Text(
-      //               "Weather Code: ${_controller.weather?.weatherCode}",
-      //               style: CupertinoTheme.of(context).textTheme.textStyle,
-      //             ),
-      //             Text(
-      //               _controller.weather?.isDay == true ? "Daytime" : "Nighttime",
-      //               style: CupertinoTheme.of(context).textTheme.textStyle,
-      //             ),
-      //             Text(
-      //               "Daily Weather Codes: ${_controller.weather?.dailyWeatherCodes.join(", ")}",
-      //               style: CupertinoTheme.of(context).textTheme.textStyle,
-      //             ),
-      //             CupertinoButton(
-      //               child: Text("Refresh"),
-      //               onPressed: _loadWeather,
-      //             ),
-      //           ],
-      //         ),
-      // ),
+      appBar: AppBar(
+        title: const Text("Weather App"),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: _controller.isLoading
+            ? const CircularProgressIndicator()
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Current Temp: ${_controller.weather?.temperature}°F",
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Weather Code: ${_controller.categorizeWeatherCode(_controller.weather?.weatherCode ?? 0)}",
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    _controller.weather?.isDay == true
+                        ? "Daytime"
+                        : "Nighttime",
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Daily Weather Codes: ${_controller.weather?.dailyWeatherCodes.join(", ")}",
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _loadWeather,
+                    child: const Text("Refresh"),
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }
